@@ -6,7 +6,7 @@
 
 # About
 
-## Токен
+## Token TTT
 Token TTT using for "reward system" in the staking USDT contract.
 
 Token has default ERC-20 methods. Max token amount = 30000, because staking contract is working within 30 days, end every day distributes 1000 tokens to holders.
@@ -36,10 +36,12 @@ Tokens become available according to the steak time (every 24 hours after the fi
 
 After the unstake, the user is sent all his available rewards at the moment.
 
-## Тесты
+--------------------------------------------
+**You can read more information in the contract's comments**
+
+## Tests
 Before launching, you need to install HardHat locally.
 In the Test folder, run the command:
-
 
 `npm install --save-dev hardhat `
 
