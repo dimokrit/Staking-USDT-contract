@@ -4,53 +4,52 @@
    <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
 </p>
 
-## About
+# About
 
-### Стейкинг
-Контракт стейкинга работает полностью в автономном режиме, не требует вызова каких-либо функций владельцем
+## Токен
+Token TTT using for "reward system" in the staking USDT contract.
 
-(только задать время начала периода стейкинга, но его можно задать и в конструкторе, если нужно).
+Token has default ERC-20 methods. Max token amount = 30000, because staking contract is working within 30 days, end every day distributes 1000 tokens to holders.
 
-Перед началом пеериода стейка необходимо заминтить 30000 токенов ТТТ на контракт стейкинга
+## Staking
+### How staking works
+The staking contract works completely offline, and does not require calling any functions by the owner.
+Before the start of the steak period, 30,000 TTT tokens must be screwed into the steak contract.
+The user can stake and unstake an unlimited number of times.
+To freeze USDT, you must first call approve() of the token in the token contract, and then call the stake() function.
 
-Наградная система - накопительная (забирать можно в любой момент)
+The contract has a totalStakedInDay array to remember how many were all staked on a certain day,
+this array is updated every time someone steaks or unstakes.
 
-Награда начисляется прямо пропорционально стейкам юзеров
+Each steak in the user's structure, the size of the steak at the moment is recorded in arrays, and on what day the steak was made,
+this is necessary to check how much the user had by the end of a certain day.
 
-Награда распределяется в соответствии с временем стейка (новая награда становится доступна каждые 24 часа после первого стейка)
+When calculating the reward, the getAwailableReward() function uses for and while loops (with limited repetitions).
+Global variables do not change inside the cycles, so the gas consumption (even with maximum repetitions) will be small.
+Cycles cannot be manipulated for any kind of attack.
 
-После анстейка юзеру отправляется взя его доступная награда на данный момент
+### Reward
+The reward system is cumulative (you can take it at any time). 1000 TTT tokens are distributed to all users every day,
+the reward is distributed in direct proportion to the users' stakes and is accrued every 24 hours from the launch.
 
-Юзер может стейкать и анстейкать неограниченное количество раз
+Tokens become available according to the steak time (every 24 hours after the first steak).
 
-Чтобы застейкать USDT необходима вызвать сначала approve() токена в контракте токена, а дальше вызвать функцию stake()
+After the unstake, the user is sent all his available rewards at the moment.
 
-Контракт имеет массив totalStakedInDay чтобы запоминать сколько было всего застейкано в определенный день
+## Тесты
+Before launching, you need to install HardHat locally.
+In the Test folder, run the command:
 
-Этот массив обновляется каждый раз когда кто-то стейкает или анстейкает
 
-Каждый стейк в структуре юзера в массивы записываются размер стейка на данный момент, и в какой день был совершен стейк
+`npm install --save-dev hardhat `
 
-Это необходимо для того чтобы проверять сколько было застейкано у юзера к концу определенного дня
+To run the tests, use the command:
 
-При расчете награды, в функции getAwailableReward(), используется цикл for, максимальное количество повторений цикла - 30 раз
+`npx hardhat test`
 
-Внутри цикла for есть 2 цикла while, максимальное количество повторений на два цикла - 30 раз
-
-(при условии, что в какие-то дни не будет происходить ни одного стейка или анстейка, или юзер будет стейкать каждый день)
-
-Внутри циклов не изменяются глобальные переменные, поэтому расход газа (даже при максимальных повторениях) будет небольшой
-Циклами нельзя манипулировать для каких-либо видов атак
-
-### Тесты
-В папке Test находятся тесты (там небольшой тест, я не совсем понял как полностью покрыть тестами контракт с данным тз)
-
-Перед запуском необходимо установить HardHat локально
-
-В папке Test выполнить команду - npm install --save-dev hardhat 
-
-Для запуска тестов используйте команду - npx hardhat test
-
-## Developers
+# Developers
 
 - [dimokrit](https://github.com/dimokrit)
+
+# Licence
+Project is distributed under the MIT license
